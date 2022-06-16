@@ -20,7 +20,7 @@ public class Attachment {
 	private String nomeFile;
 	private String contentType;
 	
-	@OneToOne(mappedBy = "attachment", fetch = FetchType.LAZY, optional = false)
+	@OneToOne(mappedBy = "attachment")
 	private RichiestaPermesso richiestaPermesso;
 	
 	@Lob

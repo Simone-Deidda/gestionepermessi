@@ -8,7 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -38,11 +37,12 @@ public class Utente {
 	@JoinTable(name = "utente_ruolo", joinColumns = @JoinColumn(name = "utente_id", referencedColumnName = "ID"), inverseJoinColumns = @JoinColumn(name = "ruolo_id", referencedColumnName = "ID"))
 	private Set<Ruolo> ruoli = new HashSet<>(0);
 	
-	@OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "dipendente_id")
+	
+	@OneToOne(mappedBy = "utente")
 	private Dipendente dipendente;
 
 	public Utente() {
+		this.stato = StatoUtente.CREATO;
 	}
 
 	public Utente(String username, String password) {
@@ -52,17 +52,18 @@ public class Utente {
 	}
 
 	public Utente(String username, String password, Date dateCreated) {
+		super();
 		this.username = username;
 		this.password = password;
 		this.dateCreated = dateCreated;
 	}
 
-	public Utente(Long id, String username, String password, Date dateCreated, StatoUtente stato) {
+	public Utente(Long id, String username, String password, Date dateCreated) {
+		super();
 		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.dateCreated = dateCreated;
-		this.stato = stato;
 	}
 
 	public Long getId() {
@@ -111,6 +112,14 @@ public class Utente {
 
 	public void setStato(StatoUtente stato) {
 		this.stato = stato;
+	}
+
+	public Dipendente getDipendente() {
+		return dipendente;
+	}
+
+	public void setDipendente(Dipendente dipendente) {
+		this.dipendente = dipendente;
 	}
 
 	public boolean isAdmin() {

@@ -35,15 +35,14 @@ public class RichiestaPermesso {
 	@Enumerated(EnumType.STRING)
 	private TipoPermesso tipoPermesso;
 	
-	@OneToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "attachement_id")
 	private Attachment attachment;
 	
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "messaggio_id")
+	@OneToOne(mappedBy = "richiestaPermesso")
 	private Messaggio messaggio;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "dipendente_id")
 	private Dipendente dipendente;
 
