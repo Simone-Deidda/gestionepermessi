@@ -1,5 +1,7 @@
 package it.prova.gestionepermessi.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,11 @@ public class RuoloServiceImpl implements RuoloService {
 	@Override
 	public void inserisciNuovo(Ruolo ruolo) {
 		ruoloRepository.save(ruolo);
+	}
+
+	@Override
+	public List<Ruolo> listAll() {
+		return (List<Ruolo>) ruoloRepository.findAll();
 	}
 
 }

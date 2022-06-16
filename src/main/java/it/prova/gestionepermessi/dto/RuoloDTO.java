@@ -1,5 +1,8 @@
 package it.prova.gestionepermessi.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import it.prova.gestionepermessi.model.Ruolo;
 
 public class RuoloDTO {
@@ -40,6 +43,14 @@ public class RuoloDTO {
 
 	public static RuoloDTO buildRuoloDTOFromModel(Ruolo ruoloModel) {
 		return new RuoloDTO(ruoloModel.getId(), ruoloModel.getDescrizione(), ruoloModel.getCodice());
+	}
+
+	public static List<RuoloDTO> createRuoloDTOListFromModelList(List<Ruolo> listRuoli) {
+		List<RuoloDTO> result = new ArrayList<RuoloDTO>();
+		for (Ruolo ruolo : listRuoli) {
+			result.add(RuoloDTO.buildRuoloDTOFromModel(ruolo));
+		}
+		return result;
 	}
 
 }

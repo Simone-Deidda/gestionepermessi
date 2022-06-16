@@ -51,50 +51,15 @@
 				      <div class="container-fluid py-5">
 				        <h1 class="display-5 fw-bold">Benvenuto in Gestione Permessi</h1>
 				        <p class="col-md-8 fs-4">Gestione Utenze</p>
-				        <a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/#">Vai a Ricerca</a>
+				        <a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/utente/search">Vai a Ricerca</a>
+				        <p class="col-md-8 fs-4">Gestione Dipendenti</p>
+				        <a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/dipendente/search">Vai a Ricerca</a>
 				      </div>
 			    </div>
 			    
 			  </div>
 			  
 			  <!--  features di bootstrap 'Columns with icons'  -->
-			  <div class="container px-4 py-5" id="featured-3">
-			    <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
-			      <div class="feature col">
-			        <div class="feature-icon bg-primary bg-gradient">
-			          <svg class="bi" width="1em" height="1em"><use xlink:href="#collection"/></svg>
-			        </div>
-			        <h2>Funzionalità1</h2>
-			        <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-			        <a href="${pageContext.request.contextPath}/#" class="icon-link">
-			          Vai alla funzionalità
-			          <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
-			        </a>
-			      </div>
-			      <div class="feature col">
-			        <div class="feature-icon bg-primary bg-gradient">
-			          <svg class="bi" width="1em" height="1em"><use xlink:href="#people-circle"/></svg>
-			        </div>
-			        <h2>Funzionalità2</h2>
-			        <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-			        <a href="${pageContext.request.contextPath}/#" class="icon-link">
-			          Vai alla funzionalità
-			          <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
-			        </a>
-			      </div>
-			      <div class="feature col">
-			        <div class="feature-icon bg-primary bg-gradient">
-			          <svg class="bi" width="1em" height="1em"><use xlink:href="#toggles2"/></svg>
-			        </div>
-			        <h2>Funzionalità3</h2>
-			        <p>Paragraph of text beneath the heading to explain the heading. We'll add onto it with another sentence and probably just keep going until we run out of words.</p>
-			        <a href="${pageContext.request.contextPath}/#" class="icon-link">
-			          Vai alla funzionalità
-			          <svg class="bi" width="1em" height="1em"><use xlink:href="#chevron-right"/></svg>
-			        </a>
-			      </div>
-			    </div>
-			  </div>
 			  
 			</main>
 			
