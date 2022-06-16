@@ -22,4 +22,6 @@ public interface UtenteService {
 	public Utente caricaSingoloUtenteConRuoli(Long idUtente);
 
 	public List<Utente> listAllUtenti();
+
+	public void aggiorna(Utente buildUtenteModel);
 }

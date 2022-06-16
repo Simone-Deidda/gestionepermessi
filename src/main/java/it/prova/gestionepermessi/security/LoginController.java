@@ -63,5 +63,4 @@ public class LoginController {
 		return "index";
 	}
 	
-	//<jsp:include page="${pageContext.request.contextPath}/navbar.jsp"></jsp:include>
 }

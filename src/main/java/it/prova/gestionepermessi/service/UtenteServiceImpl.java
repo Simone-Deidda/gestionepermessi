@@ -106,7 +106,18 @@ public class UtenteServiceImpl implements UtenteService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<Utente> listAllUtenti() {
 		return (List<Utente>) utenteRepository.findAll();
+	}
+
+	@Override
+	@Transactional
+	public void aggiorna(Utente utenteInstance) {
+		Utente utenteReloaded = utenteRepository.findById(utenteInstance.getId()).orElse(null);
+		if(utenteReloaded == null)
+			throw new RuntimeException("Elemento non trovato");
+		utenteReloaded.setRuoli(utenteInstance.getRuoli());
+		utenteRepository.save(utenteReloaded);
 	}
 }
