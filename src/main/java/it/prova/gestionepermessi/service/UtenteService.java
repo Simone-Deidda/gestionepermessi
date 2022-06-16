@@ -15,7 +15,7 @@ public interface UtenteService {
 
 	public void changeUserAbilitation(Long id);
 
-	public Optional<Utente> caricaSingoloUtente(Long id);
+	public Utente caricaSingoloUtente(Long id);
 
 	public Page<Utente> findByExample(Utente example, Integer pageNo, Integer pageSize, String sortBy);
 

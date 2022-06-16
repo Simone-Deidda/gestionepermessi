@@ -46,7 +46,7 @@ public class UtenteServiceImpl implements UtenteService {
 	@Override
 	@Transactional
 	public void changeUserAbilitation(Long id) {
-		Utente utenteInstance = caricaSingoloUtente(id).orElse(null);
+		Utente utenteInstance = caricaSingoloUtente(id);
 		if(utenteInstance == null)
 			throw new RuntimeException("Elemento non trovato.");
 		
@@ -60,8 +60,8 @@ public class UtenteServiceImpl implements UtenteService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public Optional<Utente> caricaSingoloUtente(Long id) {
-		return utenteRepository.findById(id);
+	public Utente caricaSingoloUtente(Long id) {
+		return utenteRepository.findById(id).orElse(null);
 	}
 
 	@Override

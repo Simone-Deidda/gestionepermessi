@@ -5,6 +5,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -31,6 +32,8 @@ public class UtenteController {
 	private UtenteService utenteService;
 	@Autowired
 	private RuoloService ruoloService;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
 
 	@GetMapping
 	public ModelAndView listAllUtenti() {
@@ -87,6 +90,26 @@ public class UtenteController {
 		utenteService.aggiorna(utenteDTO.buildUtenteModel(true));
 
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
+		return "redirect:/utente";
+	}
+
+	@GetMapping("/reset/{idUtente}")
+	public String resetPassword(@PathVariable(required = true) Long idUtente, Model model,
+			RedirectAttributes redirectAttrs) {
+		Utente utenteModel = utenteService.caricaSingoloUtente(idUtente);
+		if (utenteModel == null) {
+			redirectAttrs.addFlashAttribute("failedMessage", "Operazione fallita.");
+			model.addAttribute("utente_list_attribute",
+					UtenteDTO.createUtenteDTOListFromModelList(utenteService.listAllUtenti()));
+			return "redirect:/utente";
+		}
+
+		utenteModel.setPassword(passwordEncoder.encode("Password@01"));
+		utenteService.aggiorna(utenteModel);
+
+		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
+		model.addAttribute("utente_list_attribute",
+				UtenteDTO.createUtenteDTOListFromModelList(utenteService.listAllUtenti()));
 		return "redirect:/utente";
 	}
 }
