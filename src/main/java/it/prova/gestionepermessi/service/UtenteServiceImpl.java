@@ -98,4 +98,15 @@ public class UtenteServiceImpl implements UtenteService {
 
 		return utenteRepository.findAll(specificationCriteria, paging);
 	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Utente caricaSingoloUtenteConRuoli(Long idUtente) {
+		return utenteRepository.findByIdConRuoli(idUtente).orElse(null);
+	}
+
+	@Override
+	public List<Utente> listAllUtenti() {
+		return (List<Utente>) utenteRepository.findAll();
+	}
 }

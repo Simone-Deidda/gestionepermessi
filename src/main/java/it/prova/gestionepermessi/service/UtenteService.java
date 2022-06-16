@@ -1,5 +1,6 @@
 package it.prova.gestionepermessi.service;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.domain.Page;
@@ -17,4 +18,8 @@ public interface UtenteService {
 	public Optional<Utente> caricaSingoloUtente(Long id);
 
 	public Page<Utente> findByExample(Utente example, Integer pageNo, Integer pageSize, String sortBy);
+
+	public Utente caricaSingoloUtenteConRuoli(Long idUtente);
+
+	public List<Utente> listAllUtenti();
 }

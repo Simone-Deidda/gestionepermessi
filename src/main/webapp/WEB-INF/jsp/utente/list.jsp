@@ -1,5 +1,6 @@
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!doctype html>
 <html lang="it" class="h-100">
 <head>
@@ -39,6 +40,7 @@
 			                    <tr>
 			                        
 			                        <th>Username</th>
+			                        <th>Data di Creazione</th>
 			                        <th>Stato</th>
 			                        <th>Azioni</th>
 			                    </tr>
@@ -47,9 +49,10 @@
 			                	<c:forEach items="${utente_list_attribute }" var="utenteItem">
 									<tr>
 										<td>${utenteItem.username }</td>
+										<td><fmt:formatDate type="date" value = "${utenteItem.dateCreated}" /></td>
 										<td>${utenteItem.stato }</td>
 										<td>
-											<a class="btn btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/#">Visualizza</a>
+											<a class="btn btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/utente/show/${utenteItem.id}">Visualizza</a>
 											<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="${pageContext.request.contextPath}/#">Modifica</a>
 											<a href="${pageContext.request.contextPath}/#" class="btn  btn-sm btn-outline-danger ml-2 mr-2"  >Reset Password</a>
 										</td>

@@ -2,6 +2,8 @@ package it.prova.gestionepermessi.dto;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import it.prova.gestionepermessi.model.Ruolo;
 
@@ -52,5 +54,10 @@ public class RuoloDTO {
 		}
 		return result;
 	}
-
+	
+	public static List<RuoloDTO> createRuoloDTOListFromModelSet(Set<Ruolo> modelListInput) {
+		return modelListInput.stream().map(ruoloEntity -> {
+			return RuoloDTO.buildRuoloDTOFromModel(ruoloEntity);
+		}).collect(Collectors.toList());
+	}
 }
