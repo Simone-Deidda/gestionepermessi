@@ -1,10 +1,11 @@
 package it.prova.gestionepermessi.dto;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-
 
 import it.prova.gestionepermessi.model.Dipendente;
 import it.prova.gestionepermessi.model.Sesso;
@@ -125,5 +126,16 @@ public class DipendenteDTO {
 		return new DipendenteDTO(dipendenteModel.getId(), dipendenteModel.getNome(), dipendenteModel.getCognome(),
 				dipendenteModel.getCodiceFiscale(), dipendenteModel.getEmail(), dipendenteModel.getDataNascita(),
 				dipendenteModel.getDataAssunzione(), dipendenteModel.getDataDimissioni(), dipendenteModel.getSesso());
+	}
+
+	public Dipendente buildDipendenteModel() {
+		return new Dipendente(this.nome, this.cognome, this.email, this.codiceFiscale, this.dataNascita,
+				this.dataAssunzione, this.sesso);
+	}
+
+	public static List<DipendenteDTO> createDipendenteDTOListFromModelList(List<Dipendente> modelListInput) {
+		return modelListInput.stream().map(utenteEntity -> {
+			return DipendenteDTO.buildDipendenteDTOFromModel(utenteEntity);
+		}).collect(Collectors.toList());
 	}
 }

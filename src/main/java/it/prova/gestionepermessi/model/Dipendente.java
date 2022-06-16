@@ -17,6 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "dipendente", uniqueConstraints = @UniqueConstraint(columnNames = { "utente_id" }))
@@ -55,6 +57,16 @@ public class Dipendente {
 	public Dipendente(String nome, String cognome, String email, Date dataNascita, Date dataAssunzione, Sesso sesso) {
 		this.nome = nome;
 		this.cognome = cognome;
+		this.email = email;
+		this.dataNascita = dataNascita;
+		this.dataAssunzione = dataAssunzione;
+		this.sesso = sesso;
+	}
+
+	public Dipendente(String nome, String cognome, String codiceFiscale, String email, Date dataNascita, Date dataAssunzione, Sesso sesso) {
+		this.nome = nome;
+		this.cognome = cognome;
+		this.codiceFiscale = codiceFiscale;
 		this.email = email;
 		this.dataNascita = dataNascita;
 		this.dataAssunzione = dataAssunzione;
