@@ -17,12 +17,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import it.prova.gestionepermessi.model.Dipendente;
 import it.prova.gestionepermessi.model.StatoUtente;
 import it.prova.gestionepermessi.model.Utente;
 import it.prova.gestionepermessi.repository.UtenteRepository;
 
 @Service
 public class UtenteServiceImpl implements UtenteService {
+	@Autowired
+	private DipendenteService dipendenteService;
+	@Autowired
+	private RuoloService ruoloService;
 	@Autowired
 	private UtenteRepository utenteRepository;
 	@Autowired
@@ -36,24 +41,29 @@ public class UtenteServiceImpl implements UtenteService {
 
 	@Override
 	@Transactional
-	public void inserisciNuovo(Utente utente) {
-		utente.setPassword(passwordEncoder.encode(utente.getPassword())); 
+	public void inserisciNuovo(Utente utente, Dipendente dipendente) {
+		utente.setUsername(dipendente.getNome().toLowerCase().charAt(0) + "." + dipendente.getCognome().toLowerCase());
+		utente.setPassword(passwordEncoder.encode("Password@01"));
 		utente.setDateCreated(new Date());
+		utente.getRuoli().add(ruoloService.cercaPerDescrizioneECodice("Dipendente User", "ROLE_DIPENDENTE_USER"));
+		dipendente.setEmail(utente.getUsername() + "@prova.it");
+		dipendente.setUtente(utente);
 		utenteRepository.save(utente);
+		dipendenteService.inserisciNuovo(dipendente);
 	}
 
 	@Override
 	@Transactional
 	public void changeUserAbilitation(Long id) {
 		Utente utenteInstance = caricaSingoloUtente(id);
-		if(utenteInstance == null)
+		if (utenteInstance == null)
 			throw new RuntimeException("Elemento non trovato.");
-		
-		if(utenteInstance.getStato() == null || utenteInstance.getStato().equals(StatoUtente.CREATO))
+
+		if (utenteInstance.getStato() == null || utenteInstance.getStato().equals(StatoUtente.CREATO))
 			utenteInstance.setStato(StatoUtente.ATTIVO);
-		else if(utenteInstance.getStato().equals(StatoUtente.ATTIVO))
+		else if (utenteInstance.getStato().equals(StatoUtente.ATTIVO))
 			utenteInstance.setStato(StatoUtente.DISABILITATO);
-		else if(utenteInstance.getStato().equals(StatoUtente.DISABILITATO))
+		else if (utenteInstance.getStato().equals(StatoUtente.DISABILITATO))
 			utenteInstance.setStato(StatoUtente.ATTIVO);
 	}
 
@@ -66,7 +76,7 @@ public class UtenteServiceImpl implements UtenteService {
 	@Override
 	@Transactional(readOnly = true)
 	public Page<Utente> findByExample(Utente example, Integer pageNo, Integer pageSize, String sortBy) {
-		
+
 		Specification<Utente> specificationCriteria = (root, query, cb) -> {
 
 			List<Predicate> predicates = new ArrayList<Predicate>();
@@ -80,11 +90,11 @@ public class UtenteServiceImpl implements UtenteService {
 
 			if (example.getDateCreated() != null)
 				predicates.add(cb.greaterThanOrEqualTo(root.get("dateCreated"), example.getDateCreated()));
-			
-			if(!example.getRuoli().isEmpty()) {
+
+			if (!example.getRuoli().isEmpty()) {
 				predicates.add(root.join("ruoli").in(example.getRuoli()));
 			}
-			
+
 			return cb.and(predicates.toArray(new Predicate[predicates.size()]));
 		};
 
@@ -114,7 +124,7 @@ public class UtenteServiceImpl implements UtenteService {
 	@Transactional
 	public void aggiorna(Utente utenteInstance) {
 		Utente utenteReloaded = utenteRepository.findById(utenteInstance.getId()).orElse(null);
-		if(utenteReloaded == null)
+		if (utenteReloaded == null)
 			throw new RuntimeException("Elemento non trovato");
 		utenteReloaded.setRuoli(utenteInstance.getRuoli());
 		utenteRepository.save(utenteReloaded);

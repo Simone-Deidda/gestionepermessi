@@ -17,11 +17,15 @@
             <a class="nav-link dropdown-toggle" href="#" id="dropdown07" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
             <ul class="dropdown-menu" aria-labelledby="dropdown07">
               <li><a class="dropdown-item" href="${pageContext.request.contextPath}/home">Home</a></li>
+              
               <sec:authorize access="hasRole('ADMIN')">
-              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/utente/search">Cerca Utenti</a></li>
-              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/#">Funzionalità2</a></li>
-              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/#">Funzionalità3</a></li>
-              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/#">Funzionalità4</a></li>
+	              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/utente/search">Cerca Utenti</a></li>
+	              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/dipendente/search">Cerca Dipendenti</a></li>
+              </sec:authorize>
+              <sec:authorize access="hasRole('BO_USER')">
+	              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/dipendente/search">Cerca Dipendenti</a></li>
+	              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/#">Cerca Richieste Permesso</a></li>
+	              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/#">Cerca Messaggi</a></li>
               </sec:authorize>
             </ul> 
           </li>

@@ -73,6 +73,13 @@ public class Dipendente {
 		this.sesso = sesso;
 	}
 
+	public Dipendente(String nome, String cognome, Date dataNascita, Sesso sesso) {
+		this.nome = nome;
+		this.cognome = cognome;
+		this.dataNascita = dataNascita;
+		this.sesso = sesso;
+	}
+
 	public Long getId() {
 		return id;
 	}

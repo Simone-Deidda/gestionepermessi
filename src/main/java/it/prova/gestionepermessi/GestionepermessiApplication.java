@@ -42,39 +42,25 @@ public class GestionepermessiApplication implements CommandLineRunner {
 		}
 
 		if (utenteServiceInstance.cercaPerUsername("c.manca") == null) {
-			Utente admin = new Utente("c.manca", "Password@01", new Date());
-			Dipendente dipendente = new Dipendente("Carlo", "Manca", "c.manca@prova.it",
-					new SimpleDateFormat("dd-MM-yyyy").parse("01-01-1990"), new Date(), Sesso.MASCHIO);
-			admin.getRuoli().add(ruoloServiceInstance.cercaPerDescrizioneECodice("Administrator", "ROLE_ADMIN"));
-			dipendente.setUtente(admin);
+			Utente admin = new Utente();
 
-			utenteServiceInstance.inserisciNuovo(admin);
-			dipendenteServiceInstance.inserisciNuovo(dipendente);
+			utenteServiceInstance.inserisciNuovo(admin, new Dipendente("Carlo", "Manca",
+					new SimpleDateFormat("dd-MM-yyyy").parse("01-01-1990"), Sesso.MASCHIO));
 			utenteServiceInstance.changeUserAbilitation(admin.getId());
 		}
 		if (utenteServiceInstance.cercaPerUsername("p.limiti") == null) {
-			Utente backOffice = new Utente("p.limiti", "Password@01", new Date());
-			Dipendente dipendente = new Dipendente("Paolo", "Limiti", "p.limiti@prova.it",
-					new SimpleDateFormat("dd-MM-yyyy").parse("01-01-1990"), new Date(), Sesso.MASCHIO);
-			backOffice.getRuoli()
-					.add(ruoloServiceInstance.cercaPerDescrizioneECodice("Back Office User", "ROLE_BO_USER"));
-			dipendente.setUtente(backOffice);
+			Utente backOffice = new Utente();
 
-			utenteServiceInstance.inserisciNuovo(backOffice);
-			dipendenteServiceInstance.inserisciNuovo(dipendente);
+			utenteServiceInstance.inserisciNuovo(backOffice, new Dipendente("Paolo", "Limiti",
+					new SimpleDateFormat("dd-MM-yyyy").parse("01-01-1990"), Sesso.MASCHIO));
 			utenteServiceInstance.changeUserAbilitation(backOffice.getId());
 		}
 		if (utenteServiceInstance.cercaPerUsername("c.delogu") == null) {
-			Utente dip = new Utente("c.delogu", "Password@01", new Date());
-			Dipendente dipendente = new Dipendente("Cesira", "Delogu", "c.delogu@prova.it",
-					new SimpleDateFormat("dd-MM-yyyy").parse("01-01-1990"), new Date(), Sesso.FEMMINA);
-			dip.getRuoli()
-					.add(ruoloServiceInstance.cercaPerDescrizioneECodice("Dipendente User", "ROLE_DIPENDENTE_USER"));
-			dipendente.setUtente(dip);
+			Utente dipendente = new Utente();
 
-			utenteServiceInstance.inserisciNuovo(dip);
-			dipendenteServiceInstance.inserisciNuovo(dipendente);
-			utenteServiceInstance.changeUserAbilitation(dip.getId());
+			utenteServiceInstance.inserisciNuovo(dipendente, new Dipendente("Cesira", "Delogu",
+					new SimpleDateFormat("dd-MM-yyyy").parse("01-01-1990"), Sesso.FEMMINA));
+			utenteServiceInstance.changeUserAbilitation(dipendente.getId());
 		}
 	}
 

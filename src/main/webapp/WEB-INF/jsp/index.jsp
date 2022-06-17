@@ -1,3 +1,4 @@
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!doctype html>
 <html lang="it" class="h-100" >
 	 <head>
@@ -46,20 +47,31 @@
 				  ${errorMessage}
 				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" ></button>
 				</div>
-			    
-			     <div class="p-5 mb-4 bg-light rounded-3">
-				      <div class="container-fluid py-5">
-				        <h1 class="display-5 fw-bold">Benvenuto in Gestione Permessi</h1>
-				        <p class="col-md-8 fs-4">Gestione Utenze</p>
-				        <a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/utente/search">Vai a Ricerca</a>
-				        <p class="col-md-8 fs-4">Gestione Dipendenti</p>
-				        <a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/dipendente/search">Vai a Ricerca</a>
-				      </div>
-			    </div>
-			    
+			    <sec:authorize access="hasRole('ADMIN')">
+				     <div class="p-5 mb-4 bg-light rounded-3">
+					      <div class="container-fluid py-5">
+					        <h1 class="display-5 fw-bold">Benvenuto in Gestione Permessi</h1>
+					        <p class="col-md-8 fs-4">Gestione Utenze</p>
+					        <a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/utente/search">Vai a Ricerca</a>
+					        <p class="col-md-8 fs-4">Gestione Dipendenti</p>
+					        <a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/dipendente/search">Vai a Ricerca</a>
+					      </div>
+			    	</div>
+			    </sec:authorize>
+			    <sec:authorize access="hasRole('BO_USER')">
+				     <div class="p-5 mb-4 bg-light rounded-3">
+					      <div class="container-fluid py-5">
+					        <h1 class="display-5 fw-bold">Benvenuto in Gestione Permessi</h1>
+					        <p class="col-md-8 fs-4">Gestione Dipendenti</p>
+					        <a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/dipendente/search">Vai a Ricerca</a>
+					        <p class="col-md-8 fs-4">Gestione Richieste Permesso</p>
+					        <a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/#">Vai a Ricerca</a>
+					        <p class="col-md-8 fs-4">Gestione Messaggi</p>
+					        <a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/#">Vai a Ricerca</a>
+					      </div>
+			    	</div>
+			    </sec:authorize>
 			  </div>
-			  
-			  <!--  features di bootstrap 'Columns with icons'  -->
 			  
 			</main>
 			

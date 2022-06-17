@@ -129,7 +129,7 @@ public class DipendenteDTO {
 	}
 
 	public Dipendente buildDipendenteModel() {
-		return new Dipendente(this.nome, this.cognome, this.email, this.codiceFiscale, this.dataNascita,
+		return new Dipendente(this.nome, this.cognome, this.codiceFiscale, this.email, this.dataNascita,
 				this.dataAssunzione, this.sesso);
 	}
 
