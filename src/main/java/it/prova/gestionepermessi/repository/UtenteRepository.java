@@ -19,4 +19,5 @@ public interface UtenteRepository extends CrudRepository<Utente, Long> {
 	
 	@Query("from Utente u left join fetch u.ruoli where u.id = ?1")
 	Optional<Utente> findByIdConRuoli(Long id);
+	
 }

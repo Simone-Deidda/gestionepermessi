@@ -18,11 +18,14 @@ import org.springframework.transaction.annotation.Transactional;
 import it.prova.gestionepermessi.model.Dipendente;
 import it.prova.gestionepermessi.model.Utente;
 import it.prova.gestionepermessi.repository.DipendenteRepository;
+import it.prova.gestionepermessi.repository.UtenteRepository;
 
 @Service
 public class DipendenteServiceImpl implements DipendenteService {
 	@Autowired
 	private DipendenteRepository dipendenteRepository;
+	@Autowired
+	private UtenteRepository utenteRepository;
 
 	@Override
 	public void inserisciNuovo(Dipendente dipendente) {
@@ -81,8 +84,25 @@ public class DipendenteServiceImpl implements DipendenteService {
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public Dipendente caricaSingoloElemento(Long idDipendente) {
 		return dipendenteRepository.findById(idDipendente).orElse(null);
+	}
+
+	@Override
+	@Transactional
+	public void aggiorna(Dipendente toBeUpdated) {
+		Dipendente dipendenteFromDB = dipendenteRepository.findByIdConUtente(toBeUpdated.getId()).orElse(null);
+		if (dipendenteFromDB == null || dipendenteFromDB.getUtente() == null) {
+			throw new RuntimeException("Qualcosa è andato storto.");
+		}
+		
+		toBeUpdated.setUtente(dipendenteFromDB.getUtente());
+		toBeUpdated.getUtente().setUsername(toBeUpdated.getNome().toLowerCase().charAt(0) + "." + toBeUpdated.getCognome().toLowerCase());
+		toBeUpdated.setEmail(toBeUpdated.getUtente().getUsername() + "@prova.it");
+		
+		utenteRepository.save(toBeUpdated.getUtente());
+		dipendenteRepository.save(toBeUpdated);
 	}
 
 }

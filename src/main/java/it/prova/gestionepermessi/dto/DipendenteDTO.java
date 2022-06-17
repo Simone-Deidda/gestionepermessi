@@ -129,8 +129,10 @@ public class DipendenteDTO {
 	}
 
 	public Dipendente buildDipendenteModel() {
-		return new Dipendente(this.nome, this.cognome, this.codiceFiscale, this.email, this.dataNascita,
+		Dipendente dipendente = new Dipendente( this.nome, this.cognome, this.codiceFiscale, this.email, this.dataNascita,
 				this.dataAssunzione, this.sesso);
+		dipendente.setId(this.id);
+		return dipendente;
 	}
 
 	public static List<DipendenteDTO> createDipendenteDTOListFromModelList(List<Dipendente> modelListInput) {

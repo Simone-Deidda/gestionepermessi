@@ -33,6 +33,7 @@
 			    	<sec:authorize access="hasRole('BO_USER')">
 			    	<a class="btn btn-primary " href="${pageContext.request.contextPath}/dipendente/insert">Add New</a>
 			    	</sec:authorize>
+			    	
 			    	<a href="${pageContext.request.contextPath}/dipendente/search" class='btn btn-outline-secondary' >
 				            <i class='fa fa-chevron-left'></i> Torna alla Ricerca
 				        </a>
@@ -66,6 +67,9 @@
 										<td>${dipendenteItem.sesso }</td>
 										<td>
 											<a class="btn btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/dipendente/show/${dipendenteItem.id}">Visualizza</a>
+											<sec:authorize access="hasRole('BO_USER')">
+											<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="${pageContext.request.contextPath}/dipendente/edit/${dipendenteItem.id}">Modifica</a>
+											</sec:authorize>
 										</td>
 									</tr>
 								</c:forEach>

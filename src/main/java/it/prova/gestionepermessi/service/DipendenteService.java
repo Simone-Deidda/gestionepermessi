@@ -16,4 +16,6 @@ public interface DipendenteService {
 
 	public Dipendente caricaSingoloElemento(Long idDipendente);
 
+	public void aggiorna(Dipendente buildDipendenteModel);
+
 }
