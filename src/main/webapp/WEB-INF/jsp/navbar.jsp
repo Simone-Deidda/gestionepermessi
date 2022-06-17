@@ -24,8 +24,12 @@
               </sec:authorize>
               <sec:authorize access="hasRole('BO_USER')">
 	              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/dipendente/search">Cerca Dipendenti</a></li>
-	              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/#">Cerca Richieste Permesso</a></li>
-	              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/#">Cerca Messaggi</a></li>
+	              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/richiestapermesso/search">Cerca Richieste Permesso</a></li>
+	              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/messaggio/search">Cerca Messaggi</a></li>
+              </sec:authorize>
+              <sec:authorize access="hasRole('DIPENDENTE_USER')">
+	              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/richiestapermesso/search/">Cerca Richieste Permesso</a></li>
+	              <li><a class="dropdown-item" href="${pageContext.request.contextPath}/messaggio/search">Cerca Messaggi</a></li>
               </sec:authorize>
             </ul> 
           </li>

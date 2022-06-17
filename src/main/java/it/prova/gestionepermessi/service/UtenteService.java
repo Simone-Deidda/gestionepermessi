@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 
 import it.prova.gestionepermessi.model.Dipendente;
+import it.prova.gestionepermessi.model.Ruolo;
 import it.prova.gestionepermessi.model.Utente;
 
 public interface UtenteService {
@@ -25,4 +26,6 @@ public interface UtenteService {
 	public void aggiorna(Utente buildUtenteModel);
 
 	public void inserisciNuovo(Utente utente, Dipendente dipendente);
+
+	public void inserisciNuovo(Utente dipendente, Dipendente dipendente2, Ruolo ruolo);
 }

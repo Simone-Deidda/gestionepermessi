@@ -18,4 +18,6 @@ public interface DipendenteService {
 
 	public void aggiorna(Dipendente buildDipendenteModel);
 
+	public Dipendente cercaPerUsername(String name);
+
 }

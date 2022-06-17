@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import it.prova.gestionepermessi.model.Dipendente;
+import it.prova.gestionepermessi.model.Ruolo;
 import it.prova.gestionepermessi.model.StatoUtente;
 import it.prova.gestionepermessi.model.Utente;
 import it.prova.gestionepermessi.repository.UtenteRepository;
@@ -52,6 +53,18 @@ public class UtenteServiceImpl implements UtenteService {
 		dipendenteService.inserisciNuovo(dipendente);
 	}
 
+	@Transactional
+	public void inserisciNuovo(Utente utente, Dipendente dipendente, Ruolo ruolo) {
+		utente.setUsername(dipendente.getNome().toLowerCase().charAt(0) + "." + dipendente.getCognome().toLowerCase());
+		utente.setPassword(passwordEncoder.encode("Password@01"));
+		utente.setDateCreated(new Date());
+		utente.getRuoli().add(ruoloService.cercaPerDescrizioneECodice(ruolo.getDescrizione(), ruolo.getCodice()));
+		dipendente.setEmail(utente.getUsername() + "@prova.it");
+		dipendente.setUtente(utente);
+		utenteRepository.save(utente);
+		dipendenteService.inserisciNuovo(dipendente);
+	}
+	
 	@Override
 	@Transactional
 	public void changeUserAbilitation(Long id) {

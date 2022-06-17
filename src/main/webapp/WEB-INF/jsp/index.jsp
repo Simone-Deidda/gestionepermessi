@@ -65,9 +65,18 @@
 					        <p class="col-md-8 fs-4">Gestione Dipendenti</p>
 					        <a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/dipendente/search">Vai a Ricerca</a>
 					        <p class="col-md-8 fs-4">Gestione Richieste Permesso</p>
-					        <a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/#">Vai a Ricerca</a>
+					        <a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/richiestapermesso/search">Vai a Ricerca</a>
 					        <p class="col-md-8 fs-4">Gestione Messaggi</p>
 					        <a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/#">Vai a Ricerca</a>
+					      </div>
+			    	</div>
+			    </sec:authorize>
+			    <sec:authorize access="hasRole('DIPENDENTE_USER')">
+				     <div class="p-5 mb-4 bg-light rounded-3">
+					      <div class="container-fluid py-5">
+					        <h1 class="display-5 fw-bold">Benvenuto in Gestione Permessi</h1>
+					        <p class="col-md-8 fs-4">Gestione Richieste Permesso</p>
+					        <a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/richiestapermesso/search">Vai a Ricerca</a>
 					      </div>
 			    	</div>
 			    </sec:authorize>

@@ -1,8 +1,13 @@
 package it.prova.gestionepermessi.dto;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import it.prova.gestionepermessi.model.RichiestaPermesso;
 import it.prova.gestionepermessi.model.TipoPermesso;
@@ -11,15 +16,17 @@ public class RichiestaPermessoDTO {
 	private Long id;
 	@NotNull(message = "{dataInizio.notnull}")
 	private Date dataInizio;
-	@NotNull(message = "{dataFine.notnull}")
 	private Date dataFine;
 	private boolean approvato;
 	private String codiceCertificato;
 	private String note;
 	@NotNull(message = "{tipoPermesso.notnull}")
 	private TipoPermesso tipoPermesso;
+	private MultipartFile attachment;
+	private Boolean giornoSingolo;
 
 	public RichiestaPermessoDTO() {
+
 	}
 
 	public RichiestaPermessoDTO(Long id, Date dataInizio, Date dataFine, boolean approvato, String codiceCertificato,
@@ -89,9 +96,36 @@ public class RichiestaPermessoDTO {
 		this.tipoPermesso = tipoPermesso;
 	}
 
+	public MultipartFile getAttachment() {
+		return attachment;
+	}
+
+	public void setAttachment(MultipartFile attachment) {
+		this.attachment = attachment;
+	}
+
+	public Boolean getGiornoSingolo() {
+		return giornoSingolo;
+	}
+
+	public void setGiornoSingolo(Boolean giornoSingolo) {
+		this.giornoSingolo = giornoSingolo;
+	}
+
 	public static RichiestaPermessoDTO buildRichiestaPermessoDTOFromModel(RichiestaPermesso richiestaPermessoModel) {
 		return new RichiestaPermessoDTO(richiestaPermessoModel.getId(), richiestaPermessoModel.getDataInizio(),
 				richiestaPermessoModel.getDataFine(), richiestaPermessoModel.isApprovato(),
-				richiestaPermessoModel.getCodiceCertificato(), richiestaPermessoModel.getNote(), richiestaPermessoModel.getTipoPermesso());
+				richiestaPermessoModel.getCodiceCertificato(), richiestaPermessoModel.getNote(),
+				richiestaPermessoModel.getTipoPermesso());
+	}
+
+	public RichiestaPermesso buildRichiestaPermessoFromModel() {
+		return new RichiestaPermesso(this.id, this.dataInizio, this.dataFine, false, this.codiceCertificato, this.note,
+				this.tipoPermesso);
+	}
+
+	public static List<RichiestaPermessoDTO> buildRichiestaPermessoDTOFromModelList(List<RichiestaPermesso> richieste) {
+		return richieste.stream().map(richiesta -> RichiestaPermessoDTO.buildRichiestaPermessoDTOFromModel(richiesta))
+				.collect(Collectors.toList());
 	}
 }

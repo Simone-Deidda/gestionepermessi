@@ -105,4 +105,10 @@ public class DipendenteServiceImpl implements DipendenteService {
 		dipendenteRepository.save(toBeUpdated);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public Dipendente cercaPerUsername(String username) {
+		return dipendenteRepository.findByUsername(username).orElse(null);
+	}
+
 }

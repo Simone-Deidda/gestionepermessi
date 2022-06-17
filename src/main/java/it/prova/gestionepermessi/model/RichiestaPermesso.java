@@ -34,17 +34,30 @@ public class RichiestaPermesso {
 	private String note;
 	@Enumerated(EnumType.STRING)
 	private TipoPermesso tipoPermesso;
-	
-	@OneToOne(fetch = FetchType.LAZY, optional = false)
-	@JoinColumn(name = "attachement_id")
+
+	@OneToOne(mappedBy = "richiestaPermesso")
 	private Attachment attachment;
-	
+
 	@OneToOne(mappedBy = "richiestaPermesso")
 	private Messaggio messaggio;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "dipendente_id")
 	private Dipendente dipendente;
+
+	public RichiestaPermesso() {
+	}
+
+	public RichiestaPermesso(Long id, Date dataInizio, Date dataFine, boolean approvato, String codiceCertificato,
+			String note, TipoPermesso tipoPermesso) {
+		this.id = id;
+		this.dataInizio = dataInizio;
+		this.dataFine = dataFine;
+		this.approvato = approvato;
+		this.codiceCertificato = codiceCertificato;
+		this.note = note;
+		this.tipoPermesso = tipoPermesso;
+	}
 
 	public Long getId() {
 		return id;
@@ -117,6 +130,5 @@ public class RichiestaPermesso {
 	public void setDipendente(Dipendente dipendente) {
 		this.dipendente = dipendente;
 	}
-	
-	
+
 }
