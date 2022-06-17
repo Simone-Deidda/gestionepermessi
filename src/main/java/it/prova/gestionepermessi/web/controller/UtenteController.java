@@ -112,4 +112,10 @@ public class UtenteController {
 				UtenteDTO.createUtenteDTOListFromModelList(utenteService.listAllUtenti()));
 		return "redirect:/utente";
 	}
+	
+	@PostMapping("/cambiaStato")
+	public String cambiaStato(@RequestParam(name = "idUtenteForChangingStato", required = true) Long idUtente) {
+		utenteService.changeUserAbilitation(idUtente);
+		return "redirect:/utente";
+	}
 }

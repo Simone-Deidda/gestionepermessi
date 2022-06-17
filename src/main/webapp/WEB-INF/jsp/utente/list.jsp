@@ -54,6 +54,7 @@
 										<td>
 											<a class="btn btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/utente/show/${utenteItem.id}">Visualizza</a>
 											<a class="btn  btn-sm btn-outline-primary ml-2 mr-2" href="${pageContext.request.contextPath}/utente/edit/${utenteItem.id}">Modifica</a>
+											<a id="changeStatoLink_#_${utenteItem.id }" class="btn btn-outline-${utenteItem.isAttivo()?'danger':'success'} btn-sm link-for-modal" data-bs-toggle="modal" data-bs-target="#confirmOperationModal"  >${utenteItem.isAttivo()?'Disabilita':'Abilita'}</a>
 											<a href="${pageContext.request.contextPath}/utente/reset/${utenteItem.id }" class="btn  btn-sm btn-outline-danger ml-2 mr-2" >Reset Password</a>
 										</td>
 									</tr>
