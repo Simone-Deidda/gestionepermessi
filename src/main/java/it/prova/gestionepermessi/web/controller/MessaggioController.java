@@ -8,14 +8,17 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import it.prova.gestionepermessi.dto.AttachmentDTO;
 import it.prova.gestionepermessi.dto.DipendenteDTO;
 import it.prova.gestionepermessi.dto.MessaggioDTO;
 import it.prova.gestionepermessi.dto.RichiestaPermessoDTO;
+import it.prova.gestionepermessi.model.Attachment;
 import it.prova.gestionepermessi.model.Messaggio;
 import it.prova.gestionepermessi.model.RichiestaPermesso;
 import it.prova.gestionepermessi.service.DipendenteService;
@@ -45,7 +48,7 @@ public class MessaggioController {
 	}
 	
 	@PostMapping("/list")
-	public String listRichieste(@ModelAttribute("search_messaggio_attr") MessaggioDTO example,
+	public String listMessaggi(@ModelAttribute("search_messaggio_attr") MessaggioDTO example,
 			@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize,
 			@RequestParam(defaultValue = "id") String sortBy, ModelMap model) {
 
@@ -55,6 +58,19 @@ public class MessaggioController {
 		model.addAttribute("messaggio_list_attribute",
 				MessaggioDTO.buildMessaggioDTOFromModelList(richieste));
 		return "messaggio/list";
+	}
+	
+	@GetMapping("/show/{idMessaggio}")
+	public String show(@PathVariable(required = true) Long idMessaggio, Model model) {
+		Messaggio messaggio = messaggioService.caricaMessaggioConRichiestaEDipendente(idMessaggio);
+		if (messaggio == null || messaggio.getRichiestaPermesso() == null || messaggio.getRichiestaPermesso().getDipendente() == null) {
+			throw new RuntimeException("Qualcosa è andato storto");
+		}
+		
+		model.addAttribute("show_messaggio_attr", MessaggioDTO.buildMessaggioDTOFromModel(messaggio));
+		model.addAttribute("show_messaggio_richiestaPermesso_attr", RichiestaPermessoDTO.buildRichiestaPermessoDTOFromModel(messaggio.getRichiestaPermesso()));
+		model.addAttribute("show_messaggio_dipendente_attr", DipendenteDTO.buildDipendenteDTOFromModel(messaggio.getRichiestaPermesso().getDipendente()));
+		return "messaggio/show";
 	}
 
 }

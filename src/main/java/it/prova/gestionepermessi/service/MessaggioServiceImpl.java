@@ -101,4 +101,21 @@ public class MessaggioServiceImpl implements MessaggioService {
 		return messaggioRepository.findAll(specificationCriteria, paging);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public Messaggio caricaMessaggioConRichiestaEDipendente(Long idMessaggio) {
+		Messaggio mess = messaggioRepository.findAllByIdEager(idMessaggio).orElse(null);
+		if (mess == null) {
+			throw new RuntimeException("Qualcosa è andato storto nel service");
+		}
+		if (!mess.isLetto()) {
+			mess.setLetto(true);
+			mess.setDataLettura(new Date());
+			messaggioRepository.save(mess);
+			
+		}
+		
+		return mess;
+	}
+
 }

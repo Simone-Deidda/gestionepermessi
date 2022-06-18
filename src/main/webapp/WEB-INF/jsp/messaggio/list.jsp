@@ -54,7 +54,7 @@
 										<td>${messaggioItem.testo }</td>
 										<td><fmt:formatDate type="date" value = "${messaggioItem.dataInserimento}" /></td>
 										<td><fmt:formatDate type="date" value = "${messaggioItem.dataLettura}" /></td>
-										<td>${messaggioItem.letto ? 'LETTO' : 'NON Letto' }</td>
+										<td>${messaggioItem.letto ? 'LETTO' : 'NON LETTO' }</td>
 										<td>
 											<a class="btn btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/messaggio/show/${messaggioItem.id}">Visualizza</a>
 										</td>

@@ -15,4 +15,6 @@ public interface MessaggioService {
 
 	public Page<Messaggio> findByExample(Messaggio buildMessaggioModel, Integer pageNo, Integer pageSize, String sortBy);
 
+	public Messaggio caricaMessaggioConRichiestaEDipendente(Long idMessaggio);
+
 }
