@@ -10,7 +10,7 @@ public interface DipendenteService {
 
 	public void inserisciNuovo(Dipendente dipendente);
 
-	public List<Dipendente> listAllUtenti();
+	public List<Dipendente> listAllDipendenti();
 
 	public Page<Dipendente> findByExample(Dipendente buildUtenteModel, Integer pageNo, Integer pageSize, String sortBy);
 

@@ -34,7 +34,7 @@ public class DipendenteServiceImpl implements DipendenteService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<Dipendente> listAllUtenti() {
+	public List<Dipendente> listAllDipendenti() {
 		return (List<Dipendente>) dipendenteRepository.findAll();
 	}
 

@@ -80,6 +80,10 @@ public class Dipendente {
 		this.sesso = sesso;
 	}
 
+	public Dipendente(Long dipendenteId) {
+		this.id = dipendenteId;
+	}
+
 	public Long getId() {
 		return id;
 	}

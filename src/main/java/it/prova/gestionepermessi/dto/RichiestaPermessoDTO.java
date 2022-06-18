@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import it.prova.gestionepermessi.model.Dipendente;
 import it.prova.gestionepermessi.model.RichiestaPermesso;
 import it.prova.gestionepermessi.model.TipoPermesso;
 
@@ -24,6 +25,7 @@ public class RichiestaPermessoDTO {
 	private TipoPermesso tipoPermesso;
 	private MultipartFile attachment;
 	private Boolean giornoSingolo;
+	private Long dipendenteId;
 
 	public RichiestaPermessoDTO() {
 
@@ -112,6 +114,14 @@ public class RichiestaPermessoDTO {
 		this.giornoSingolo = giornoSingolo;
 	}
 
+	public Long getDipendenteId() {
+		return dipendenteId;
+	}
+
+	public void setDipendenteId(Long dipendentiIds) {
+		this.dipendenteId = dipendentiIds;
+	}
+
 	public static RichiestaPermessoDTO buildRichiestaPermessoDTOFromModel(RichiestaPermesso richiestaPermessoModel) {
 		return new RichiestaPermessoDTO(richiestaPermessoModel.getId(), richiestaPermessoModel.getDataInizio(),
 				richiestaPermessoModel.getDataFine(), richiestaPermessoModel.isApprovato(),
@@ -128,4 +138,14 @@ public class RichiestaPermessoDTO {
 		return richieste.stream().map(richiesta -> RichiestaPermessoDTO.buildRichiestaPermessoDTOFromModel(richiesta))
 				.collect(Collectors.toList());
 	}
+
+	public RichiestaPermesso buildRichiestaPermessoModel(boolean includesDipendente) {
+		RichiestaPermesso result = new RichiestaPermesso(this.id, this.dataInizio, this.dataFine, this.approvato,
+				this.codiceCertificato, this.note, this.tipoPermesso);
+		if (includesDipendente && dipendenteId != null) {
+			result.setDipendente(new Dipendente(this.dipendenteId));
+		}
+		return result;
+	}
+
 }

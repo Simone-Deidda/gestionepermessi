@@ -45,7 +45,7 @@ public class DipendenteController {
 	@GetMapping
 	public ModelAndView listAllDipendenti() {
 		ModelAndView mv = new ModelAndView();
-		List<Dipendente> dipendenti = dipendenteService.listAllUtenti();
+		List<Dipendente> dipendenti = dipendenteService.listAllDipendenti();
 		mv.addObject("dipendente_list_attribute", dipendenti);
 		mv.setViewName("dipendente/list");
 		return mv;
