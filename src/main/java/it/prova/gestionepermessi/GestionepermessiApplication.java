@@ -22,8 +22,6 @@ public class GestionepermessiApplication implements CommandLineRunner {
 	private RuoloService ruoloServiceInstance;
 	@Autowired
 	private UtenteService utenteServiceInstance;
-	@Autowired
-	private DipendenteService dipendenteServiceInstance;
 
 	public static void main(String[] args) {
 		SpringApplication.run(GestionepermessiApplication.class, args);

@@ -24,14 +24,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import it.prova.gestionepermessi.dto.AttachmentDTO;
 import it.prova.gestionepermessi.dto.DipendenteDTO;
 import it.prova.gestionepermessi.dto.RichiestaPermessoDTO;
-import it.prova.gestionepermessi.dto.RuoloDTO;
-import it.prova.gestionepermessi.dto.UtenteDTO;
 import it.prova.gestionepermessi.model.Attachment;
 import it.prova.gestionepermessi.model.Dipendente;
+import it.prova.gestionepermessi.model.Messaggio;
 import it.prova.gestionepermessi.model.RichiestaPermesso;
-import it.prova.gestionepermessi.model.Utente;
 import it.prova.gestionepermessi.service.AttachmentService;
 import it.prova.gestionepermessi.service.DipendenteService;
+import it.prova.gestionepermessi.service.MessaggioService;
 import it.prova.gestionepermessi.service.RichiestaPermessoService;
 import it.prova.gestionepermessi.validator.RichiestaPermessoValidator;
 
@@ -46,6 +45,8 @@ public class RichiestaPermessoController {
 	private DipendenteService dipendenteService;
 	@Autowired
 	private AttachmentService attachmentService;
+	@Autowired
+	private MessaggioService messaggioService;
 
 	@GetMapping
 	public ModelAndView listAllRichieste() {
@@ -162,10 +163,8 @@ public class RichiestaPermessoController {
 		RichiestaPermesso richiestaModel = richiestaPermessoService.caricaRichiestaConDipendente(idRichiesta);
 		Attachment attachment = attachmentService.cercaPerIdRichiesta(idRichiesta);
 
-		System.out.println(richiestaModel.isApprovato());
 		richiestaModel.setApprovato(!richiestaModel.isApprovato());
 		richiestaPermessoService.aggiorna(richiestaModel);
-		System.out.println(richiestaModel.isApprovato());
 
 		model.addAttribute("show_richiestapermesso_attr",
 				RichiestaPermessoDTO.buildRichiestaPermessoDTOFromModel(richiestaModel));
@@ -174,7 +173,39 @@ public class RichiestaPermessoController {
 		model.addAttribute("show_richiestapermesso_attachment_attr",
 				AttachmentDTO.buildAttachmentDTOFromModel(attachment));
 
-		System.out.println("return");
 		return "richiestapermesso/show";
+	}
+	
+	@GetMapping("/delete/{idRichiesta}")
+	public String delete(@PathVariable(required = true) Long idRichiesta, Model model) {
+		RichiestaPermesso richiestaModel = richiestaPermessoService.caricaSingolo(idRichiesta);
+
+		model.addAttribute("delete_richiestapermesso_attr",
+				RichiestaPermessoDTO.buildRichiestaPermessoDTOFromModel(richiestaModel));
+
+		return "richiestapermesso/delete";
+	}
+	
+	@GetMapping("/remove/{idRichiesta}")
+	public String remove(@PathVariable(required = true) Long idRichiesta, Model model, RedirectAttributes redirectAttrs) {
+		RichiestaPermesso richiestaModel = richiestaPermessoService.caricaSingolo(idRichiesta);
+
+		if (richiestaModel.isApprovato()) {
+			model.addAttribute("delete_richiestapermesso_attr",
+					RichiestaPermessoDTO.buildRichiestaPermessoDTOFromModel(richiestaModel));
+			return "richiestapermesso/delete";
+		}
+		
+		Attachment attachment = attachmentService.cercaPerIdRichiesta(idRichiesta);
+		if (attachment != null) {
+			attachmentService.cancella(attachment);
+		}
+		Messaggio messaggio = messaggioService.findByRichiesta(idRichiesta);
+		if (messaggio != null) {
+			messaggioService.cancella(messaggio);
+		}
+		
+		richiestaPermessoService.cancella(richiestaModel);
+		return "redirect:/richiestapermesso";
 	}
 }

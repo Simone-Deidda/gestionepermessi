@@ -136,8 +136,8 @@ public class DipendenteDTO {
 	}
 
 	public static List<DipendenteDTO> createDipendenteDTOListFromModelList(List<Dipendente> modelListInput) {
-		return modelListInput.stream().map(utenteEntity -> {
-			return DipendenteDTO.buildDipendenteDTOFromModel(utenteEntity);
+		return modelListInput.stream().map(dipendenteEntity -> {
+			return DipendenteDTO.buildDipendenteDTOFromModel(dipendenteEntity);
 		}).collect(Collectors.toList());
 	}
 }

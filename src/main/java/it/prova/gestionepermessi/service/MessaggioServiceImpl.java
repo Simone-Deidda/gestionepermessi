@@ -17,7 +17,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import antlr.build.Tool;
 import it.prova.gestionepermessi.model.Messaggio;
 import it.prova.gestionepermessi.model.RichiestaPermesso;
 import it.prova.gestionepermessi.repository.MessaggioRepository;
@@ -128,6 +127,18 @@ public class MessaggioServiceImpl implements MessaggioService {
 	@Transactional(readOnly = true)
 	public List<Messaggio> listAllMessaggiNonLetti() {
 		return messaggioRepository.findAllByLettoIs(false);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public Messaggio findByRichiesta(Long idRichiesta) {
+		return messaggioRepository.findByRichiestaPermesso_Id(idRichiesta);
+	}
+
+	@Override
+	@Transactional
+	public void cancella(Messaggio messaggio) {
+		messaggioRepository.delete(messaggio);
 	}
 
 }

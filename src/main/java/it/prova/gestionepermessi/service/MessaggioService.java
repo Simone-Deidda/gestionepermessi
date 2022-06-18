@@ -21,4 +21,8 @@ public interface MessaggioService {
 
 	public List<Messaggio> listAllMessaggiNonLetti();
 
+	public Messaggio findByRichiesta(Long idRichiesta);
+
+	public void cancella(Messaggio messaggio);
+
 }

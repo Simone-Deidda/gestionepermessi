@@ -4,7 +4,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.web.multipart.MultipartFile;

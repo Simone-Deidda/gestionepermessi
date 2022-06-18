@@ -22,4 +22,8 @@ public interface RichiestaPermessoService {
 
 	public List<RichiestaPermesso> cercaPerIdDipendente(Long id);
 
+	public RichiestaPermesso caricaSingolo(Long idRichiesta);
+
+	public void cancella(RichiestaPermesso richiestaModel);
+
 }

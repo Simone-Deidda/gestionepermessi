@@ -1,6 +1,5 @@
 package it.prova.gestionepermessi.web.controller;
 
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,12 +20,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import it.prova.gestionepermessi.dto.DipendenteDTO;
-import it.prova.gestionepermessi.dto.RuoloDTO;
-import it.prova.gestionepermessi.dto.UtenteDTO;
 import it.prova.gestionepermessi.model.Dipendente;
 import it.prova.gestionepermessi.model.Utente;
 import it.prova.gestionepermessi.service.DipendenteService;
-import it.prova.gestionepermessi.service.RuoloService;
 import it.prova.gestionepermessi.service.UtenteService;
 import it.prova.gestionepermessi.validator.DipendenteValidator;
 
@@ -37,8 +33,6 @@ public class DipendenteController {
 	private DipendenteValidator dipendenteValidator;
 	@Autowired
 	private DipendenteService dipendenteService;
-	@Autowired
-	private RuoloService ruoloService;
 	@Autowired
 	private UtenteService utenteService;
 
@@ -52,20 +46,20 @@ public class DipendenteController {
 	}
 
 	@GetMapping("/search")
-	public String searchUtente(ModelMap model) {
+	public String searchDipendente(ModelMap model) {
 		model.addAttribute("search_dipendente_attr", new DipendenteDTO());
 		return "dipendente/search";
 	}
 
 	@PostMapping("/list")
-	public String listUtenti(@ModelAttribute("search_dipendente_attr") DipendenteDTO dipendenteExample,
+	public String listDipendenti(@ModelAttribute("search_dipendente_attr") DipendenteDTO dipendenteExample,
 			@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize,
 			@RequestParam(defaultValue = "id") String sortBy, ModelMap model) {
 
-		List<Dipendente> utenti = dipendenteService
+		List<Dipendente> dipendenti = dipendenteService
 				.findByExample(dipendenteExample.buildDipendenteModel(), pageNo, pageSize, sortBy).getContent();
 
-		model.addAttribute("dipendente_list_attribute", DipendenteDTO.createDipendenteDTOListFromModelList(utenti));
+		model.addAttribute("dipendente_list_attribute", DipendenteDTO.createDipendenteDTOListFromModelList(dipendenti));
 		return "dipendente/list";
 	}
 

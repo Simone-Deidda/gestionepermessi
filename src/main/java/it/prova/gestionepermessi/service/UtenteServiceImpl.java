@@ -53,6 +53,7 @@ public class UtenteServiceImpl implements UtenteService {
 		dipendenteService.inserisciNuovo(dipendente);
 	}
 
+	@Override
 	@Transactional
 	public void inserisciNuovo(Utente utente, Dipendente dipendente, Ruolo ruolo) {
 		utente.setUsername(dipendente.getNome().toLowerCase().charAt(0) + "." + dipendente.getCognome().toLowerCase());

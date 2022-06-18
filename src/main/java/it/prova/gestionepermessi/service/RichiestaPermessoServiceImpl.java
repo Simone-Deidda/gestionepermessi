@@ -119,13 +119,27 @@ public class RichiestaPermessoServiceImpl implements RichiestaPermessoService {
 	}
 
 	@Override
+	@Transactional
 	public void aggiorna(RichiestaPermesso richiestaModel) {
 		richiestaPermessoRepository.save(richiestaModel);
 	}
 
 	@Override
+	@Transactional(readOnly = true)
 	public List<RichiestaPermesso> cercaPerIdDipendente(Long id) {
 		return richiestaPermessoRepository.findAllByDipendente_Id(id);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public RichiestaPermesso caricaSingolo(Long idRichiesta) {
+		return richiestaPermessoRepository.findById(idRichiesta).orElse(null);
+	}
+
+	@Override
+	@Transactional
+	public void cancella(RichiestaPermesso richiestaModel) {
+		richiestaPermessoRepository.delete(richiestaModel);
 	}
 
 }

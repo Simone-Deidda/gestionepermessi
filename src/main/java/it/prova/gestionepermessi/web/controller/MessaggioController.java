@@ -14,14 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import it.prova.gestionepermessi.dto.AttachmentDTO;
 import it.prova.gestionepermessi.dto.DipendenteDTO;
 import it.prova.gestionepermessi.dto.MessaggioDTO;
 import it.prova.gestionepermessi.dto.RichiestaPermessoDTO;
-import it.prova.gestionepermessi.model.Attachment;
 import it.prova.gestionepermessi.model.Messaggio;
-import it.prova.gestionepermessi.model.RichiestaPermesso;
-import it.prova.gestionepermessi.service.DipendenteService;
 import it.prova.gestionepermessi.service.MessaggioService;
 
 @Controller
@@ -29,8 +25,6 @@ import it.prova.gestionepermessi.service.MessaggioService;
 public class MessaggioController {
 	@Autowired
 	private MessaggioService messaggioService;
-	@Autowired
-	private DipendenteService dipendenteService;
 
 	@GetMapping
 	public ModelAndView listAllMessaggi() {
@@ -52,11 +46,11 @@ public class MessaggioController {
 			@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize,
 			@RequestParam(defaultValue = "id") String sortBy, ModelMap model) {
 
-		List<Messaggio> richieste = messaggioService
+		List<Messaggio> messaggi = messaggioService
 				.findByExample(example.buildMessaggioModel(), pageNo, pageSize, sortBy).getContent();
 
 		model.addAttribute("messaggio_list_attribute",
-				MessaggioDTO.buildMessaggioDTOFromModelList(richieste));
+				MessaggioDTO.buildMessaggioDTOFromModelList(messaggi));
 		return "messaggio/list";
 	}
 	

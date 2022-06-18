@@ -7,7 +7,6 @@ import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotBlank;
 
-import it.prova.gestionepermessi.model.RichiestaPermesso;
 import it.prova.gestionepermessi.model.Ruolo;
 import it.prova.gestionepermessi.model.StatoUtente;
 import it.prova.gestionepermessi.model.Utente;

@@ -22,4 +22,6 @@ public interface MessaggioRepository extends CrudRepository<Messaggio, Long> {
 
 	List<Messaggio> findAllByLettoIs(boolean b);
 
+	Messaggio findByRichiestaPermesso_Id(Long idRichiesta);
+
 }
