@@ -44,7 +44,7 @@
 			    	
 			    	<dl class="row">
 					  <dt class="col-sm-3 text-right">Stato:</dt>
-					  <dd class="col-sm-9">${richiestaItem.approvato?'APPROVATO':'NON APPROVATO' }</dd>
+					  <dd class="col-sm-9">${show_richiestapermesso_attr.approvato?'APPROVATO':'NON APPROVATO' }</dd>
 			    	</dl>
 			    	
 			    	<p>
@@ -89,6 +89,9 @@
 			    	
 					</div>
 			    	
+			    	<div class="card-footer">
+			    		<a href="${pageContext.request.contextPath }/richiestapermesso/cambiaStato/${show_richiestapermesso_attr.id }" class="btn btn-outline-${show_richiestapermesso_attr.approvato?'danger':'success'}">${show_richiestapermesso_attr.approvato?'CONCEDI':'NEGA'}</a>
+			    	</div>
 			    <!-- end card body -->
 			    </div>
 			    

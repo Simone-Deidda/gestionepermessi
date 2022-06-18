@@ -18,4 +18,6 @@ public interface RichiestaPermessoService {
 
 	public RichiestaPermesso caricaRichiestaConDipendente(Long idUtente);
 
+	public void aggiorna(RichiestaPermesso richiestaModel);
+
 }

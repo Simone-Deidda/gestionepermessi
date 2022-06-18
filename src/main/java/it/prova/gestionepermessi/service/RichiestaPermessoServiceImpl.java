@@ -118,4 +118,9 @@ public class RichiestaPermessoServiceImpl implements RichiestaPermessoService {
 		return richiestaPermessoRepository.findByIdEager(id);
 	}
 
+	@Override
+	public void aggiorna(RichiestaPermesso richiestaModel) {
+		richiestaPermessoRepository.save(richiestaModel);
+	}
+
 }

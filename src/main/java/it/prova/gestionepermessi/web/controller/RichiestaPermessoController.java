@@ -117,8 +117,33 @@ public class RichiestaPermessoController {
 		
 		model.addAttribute("show_richiestapermesso_attr", RichiestaPermessoDTO.buildRichiestaPermessoDTOFromModel(richiestaModel));
 		model.addAttribute("show_richiestapermesso_dipendente_attr", DipendenteDTO.buildDipendenteDTOFromModel(richiestaModel.getDipendente()));
+		if (attachment == null) {
+			model.addAttribute("show_richiestapermesso_attachment_attr", null);
+		}
+		else {
+			model.addAttribute("show_richiestapermesso_attachment_attr",
+					AttachmentDTO.buildAttachmentDTOFromModel(attachment));
+			
+		}
+		
+		return "richiestapermesso/show";
+	}
+	
+	@GetMapping("/cambiaStato/{idRichiesta}")
+	public String cambiaStato(@PathVariable(required = true) Long idRichiesta, Model model) {
+		RichiestaPermesso richiestaModel = richiestaPermessoService.caricaRichiestaConDipendente(idRichiesta);
+		Attachment attachment = attachmentService.cercaPerIdRichiesta(idRichiesta);
+		
+		System.out.println(richiestaModel.isApprovato());
+		richiestaModel.setApprovato(!richiestaModel.isApprovato());
+		richiestaPermessoService.aggiorna(richiestaModel);
+		System.out.println(richiestaModel.isApprovato());
+		
+		model.addAttribute("show_richiestapermesso_attr", RichiestaPermessoDTO.buildRichiestaPermessoDTOFromModel(richiestaModel));
+		model.addAttribute("show_richiestapermesso_dipendente_attr", DipendenteDTO.buildDipendenteDTOFromModel(richiestaModel.getDipendente()));
 		model.addAttribute("show_richiestapermesso_attachment_attr", AttachmentDTO.buildAttachmentDTOFromModel(attachment));
 		
+		System.out.println("return");
 		return "richiestapermesso/show";
 	}
 }
