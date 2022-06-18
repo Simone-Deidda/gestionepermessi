@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "messaggio")
@@ -33,6 +34,18 @@ public class Messaggio {
 	@OneToOne(fetch = FetchType.LAZY, optional = false)
 	@JoinColumn(name = "richiestaPermesso_id")
 	private RichiestaPermesso richiestaPermesso;
+
+	public Messaggio() {
+	}
+
+	public Messaggio(Long id, String testo, String oggetto, boolean letto, Date dataInserimento, Date dataLettura) {
+		this.id = id;
+		this.testo = testo;
+		this.oggetto = oggetto;
+		this.letto = letto;
+		this.dataInserimento = dataInserimento;
+		this.dataLettura = dataLettura;
+	}
 
 	public Long getId() {
 		return id;

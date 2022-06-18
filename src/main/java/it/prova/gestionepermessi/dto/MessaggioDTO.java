@@ -1,6 +1,8 @@
 package it.prova.gestionepermessi.dto;
 
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.validation.constraints.NotBlank;
 
@@ -15,6 +17,7 @@ public class MessaggioDTO {
 	private boolean letto;
 	private Date dataInserimento;
 	private Date dataLettura;
+	private Long dipendenteId;
 
 	public MessaggioDTO() {
 	}
@@ -76,8 +79,24 @@ public class MessaggioDTO {
 		this.dataLettura = dataLettura;
 	}
 
+	public Long getDipendenteId() {
+		return dipendenteId;
+	}
+
+	public void setDipendenteId(Long dipendenteId) {
+		this.dipendenteId = dipendenteId;
+	}
+
 	public static MessaggioDTO buildMessaggioDTOFromModel(Messaggio messaggioModel) {
 		return new MessaggioDTO(messaggioModel.getId(), messaggioModel.getTesto(), messaggioModel.getOggetto(),
 				messaggioModel.isLetto(), messaggioModel.getDataInserimento(), messaggioModel.getDataLettura());
+	}
+
+	public Messaggio buildMessaggioModel() {
+		return new Messaggio(this.id, this.oggetto, this.testo, this.letto, this.dataInserimento, this.dataLettura);
+	}
+
+	public static List<MessaggioDTO> buildMessaggioDTOFromModelList(List<Messaggio> messaggi) {
+		return messaggi.stream().map(mess -> buildMessaggioDTOFromModel(mess)).collect(Collectors.toList());
 	}
 }

@@ -67,7 +67,7 @@
 					        <p class="col-md-8 fs-4">Gestione Richieste Permesso</p>
 					        <a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/richiestapermesso/search">Vai a Ricerca</a>
 					        <p class="col-md-8 fs-4">Gestione Messaggi</p>
-					        <a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/#">Vai a Ricerca</a>
+					        <a class="btn btn-primary btn-lg" href="${pageContext.request.contextPath}/messaggio/search">Vai a Ricerca</a>
 					      </div>
 			    	</div>
 			    </sec:authorize>
