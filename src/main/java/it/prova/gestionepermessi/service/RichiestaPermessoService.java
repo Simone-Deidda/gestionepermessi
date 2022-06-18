@@ -16,4 +16,6 @@ public interface RichiestaPermessoService {
 	public Page<RichiestaPermesso> findByExample(RichiestaPermesso buildUtenteModel, Integer pageNo, Integer pageSize,
 			String sortBy);
 
+	public RichiestaPermesso caricaRichiestaConDipendente(Long idUtente);
+
 }

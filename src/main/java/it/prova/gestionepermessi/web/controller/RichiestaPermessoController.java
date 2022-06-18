@@ -13,18 +13,23 @@ import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import it.prova.gestionepermessi.dto.AttachmentDTO;
 import it.prova.gestionepermessi.dto.DipendenteDTO;
 import it.prova.gestionepermessi.dto.RichiestaPermessoDTO;
+import it.prova.gestionepermessi.dto.RuoloDTO;
 import it.prova.gestionepermessi.dto.UtenteDTO;
+import it.prova.gestionepermessi.model.Attachment;
 import it.prova.gestionepermessi.model.Dipendente;
 import it.prova.gestionepermessi.model.RichiestaPermesso;
 import it.prova.gestionepermessi.model.Utente;
+import it.prova.gestionepermessi.service.AttachmentService;
 import it.prova.gestionepermessi.service.DipendenteService;
 import it.prova.gestionepermessi.service.RichiestaPermessoService;
 import it.prova.gestionepermessi.validator.RichiestaPermessoValidator;
@@ -38,6 +43,8 @@ public class RichiestaPermessoController {
 	private RichiestaPermessoService richiestaPermessoService;
 	@Autowired
 	private DipendenteService dipendenteService;
+	@Autowired
+	private AttachmentService attachmentService;
 
 	@GetMapping
 	public ModelAndView listAllRichieste() {
@@ -101,5 +108,17 @@ public class RichiestaPermessoController {
 
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
 		return "redirect:/richiestapermesso";
+	}
+	
+	@GetMapping("/show/{idRichiesta}")
+	public String show(@PathVariable(required = true) Long idRichiesta, Model model) {
+		RichiestaPermesso richiestaModel = richiestaPermessoService.caricaRichiestaConDipendente(idRichiesta);
+		Attachment attachment = attachmentService.cercaPerIdRichiesta(idRichiesta);
+		
+		model.addAttribute("show_richiestapermesso_attr", RichiestaPermessoDTO.buildRichiestaPermessoDTOFromModel(richiestaModel));
+		model.addAttribute("show_richiestapermesso_dipendente_attr", DipendenteDTO.buildDipendenteDTOFromModel(richiestaModel.getDipendente()));
+		model.addAttribute("show_richiestapermesso_attachment_attr", AttachmentDTO.buildAttachmentDTOFromModel(attachment));
+		
+		return "richiestapermesso/show";
 	}
 }

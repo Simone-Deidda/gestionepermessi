@@ -109,4 +109,10 @@ public class RichiestaPermessoServiceImpl implements RichiestaPermessoService {
 		return richiestaPermessoRepository.findAll(specificationCriteria, paging);
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public RichiestaPermesso caricaRichiestaConDipendente(Long id) {
+		return richiestaPermessoRepository.findByIdEager(id);
+	}
+
 }
