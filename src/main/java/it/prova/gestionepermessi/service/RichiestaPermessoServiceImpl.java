@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import it.prova.gestionepermessi.model.Attachment;
+import it.prova.gestionepermessi.model.Messaggio;
 import it.prova.gestionepermessi.model.RichiestaPermesso;
 import it.prova.gestionepermessi.repository.AttachmentRepository;
 import it.prova.gestionepermessi.repository.RichiestaPermessoRepository;
@@ -30,6 +31,8 @@ public class RichiestaPermessoServiceImpl implements RichiestaPermessoService {
 	private RichiestaPermessoRepository richiestaPermessoRepository;
 	@Autowired
 	private AttachmentRepository attachmentRepository;
+	@Autowired
+	private MessaggioService messaggioService;
 
 	@Override
 	@Transactional(readOnly = true)
@@ -60,7 +63,7 @@ public class RichiestaPermessoServiceImpl implements RichiestaPermessoService {
 			newfile.setRichiestaPermesso(richiesta);
 			attachmentRepository.save(newfile);
 		}
-
+		messaggioService.inserisciNuovo(new Messaggio(), richiesta);
 	}
 
 	@Override
