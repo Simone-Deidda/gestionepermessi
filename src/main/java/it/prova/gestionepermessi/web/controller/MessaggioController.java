@@ -73,4 +73,12 @@ public class MessaggioController {
 		return "messaggio/show";
 	}
 
+	@GetMapping("/messaggiNonLetti")
+	public ModelAndView listAllMessaggiNonLetti() {
+		ModelAndView mv = new ModelAndView();
+		List<Messaggio> messaggi = messaggioService.listAllMessaggiNonLetti();
+		mv.addObject("messaggio_list_attribute", messaggi);
+		mv.setViewName("messaggio/list");
+		return mv;
+	}
 }

@@ -47,6 +47,12 @@
 				  ${errorMessage}
 				  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" ></button>
 				</div>
+				<sec:authorize access="hasRole('BO_USER')">
+					<div class="alert alert-warning alert-dismissible fade show ${numeroMessaggi == 0? 'd-none':'' }" role="alert">
+					  Hai ${numeroMessaggi } messaggi${numeroMessaggi == 1? 'o':'' } non lett${numeroMessaggi == 1? 'o':'i' }, clicca <a href="${pageContext.request.contextPath}/messaggio/messaggiNonLetti">qui</a> per leggerl${numeroMessaggi == 1? 'o':'i' }.
+					  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" ></button>
+					</div>
+				</sec:authorize>
 			    <sec:authorize access="hasRole('ADMIN')">
 				     <div class="p-5 mb-4 bg-light rounded-3">
 					      <div class="container-fluid py-5">

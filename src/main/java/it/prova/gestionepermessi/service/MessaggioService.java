@@ -17,4 +17,8 @@ public interface MessaggioService {
 
 	public Messaggio caricaMessaggioConRichiestaEDipendente(Long idMessaggio);
 
+	public Long contaMessaggiNonLetti();
+
+	public List<Messaggio> listAllMessaggiNonLetti();
+
 }

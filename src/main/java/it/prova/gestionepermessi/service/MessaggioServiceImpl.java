@@ -118,4 +118,16 @@ public class MessaggioServiceImpl implements MessaggioService {
 		return mess;
 	}
 
+	@Override
+	@Transactional(readOnly = true)
+	public Long contaMessaggiNonLetti() {
+		return messaggioRepository.countByLetto(false);
+	}
+
+	@Override
+	@Transactional(readOnly = true)
+	public List<Messaggio> listAllMessaggiNonLetti() {
+		return messaggioRepository.findAllByLettoIs(false);
+	}
+
 }
