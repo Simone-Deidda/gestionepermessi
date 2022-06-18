@@ -1,5 +1,6 @@
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!doctype html>
 <html lang="it" class="h-100">
 <head>
@@ -89,9 +90,11 @@
 			    	
 					</div>
 			    	
-			    	<div class="card-footer">
-			    		<a href="${pageContext.request.contextPath }/richiestapermesso/cambiaStato/${show_richiestapermesso_attr.id }" class="btn btn-outline-${show_richiestapermesso_attr.approvato?'danger':'success'}">${show_richiestapermesso_attr.approvato?'CONCEDI':'NEGA'}</a>
-			    	</div>
+			    	<sec:authorize access="hasRole('BO_USER')">
+				    	<div class="card-footer">
+				    		<a href="${pageContext.request.contextPath }/richiestapermesso/cambiaStato/${show_richiestapermesso_attr.id }" class="btn btn-outline-${show_richiestapermesso_attr.approvato?'danger':'success'}">${show_richiestapermesso_attr.approvato?'CONCEDI':'NEGA'}</a>
+				    	</div>
+			    	</sec:authorize>
 			    <!-- end card body -->
 			    </div>
 			    

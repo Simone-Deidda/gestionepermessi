@@ -6,6 +6,7 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -49,7 +50,23 @@ public class RichiestaPermessoController {
 	@GetMapping
 	public ModelAndView listAllRichieste() {
 		ModelAndView mv = new ModelAndView();
-		List<RichiestaPermesso> richieste = richiestaPermessoService.listAllRichieste();
+		List<RichiestaPermesso> richieste = null;
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth == null) {
+			throw new RuntimeException("Qualcosa è andato storto");
+		}
+		for (GrantedAuthority ruolo : auth.getAuthorities()) {
+			if ("ROLE_DIPENDENTE_USER".equalsIgnoreCase(ruolo.toString())) {
+				Dipendente dipendenteInSessione = dipendenteService.cercaPerUsername(auth.getName());
+				richieste = richiestaPermessoService.cercaPerIdDipendente(dipendenteInSessione.getId());
+			}
+		}
+		if (richieste == null) {
+
+			richieste = richiestaPermessoService.listAllRichieste();
+		}
+
 		mv.addObject("richiestapermesso_list_attribute",
 				RichiestaPermessoDTO.buildRichiestaPermessoDTOFromModelList(richieste));
 		mv.setViewName("richiestapermesso/list");
@@ -68,6 +85,16 @@ public class RichiestaPermessoController {
 	public String listRichieste(@ModelAttribute("search_richiestapermesso_attr") RichiestaPermessoDTO example,
 			@RequestParam(defaultValue = "0") Integer pageNo, @RequestParam(defaultValue = "10") Integer pageSize,
 			@RequestParam(defaultValue = "id") String sortBy, ModelMap model) {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth == null) {
+			throw new RuntimeException("Qualcosa è andato storto");
+		}
+		for (GrantedAuthority ruolo : auth.getAuthorities()) {
+			if ("ROLE_DIPENDENTE_USER".equalsIgnoreCase(ruolo.toString())) {
+				Dipendente dipendenteInSessione = dipendenteService.cercaPerUsername(auth.getName());
+				example.setDipendenteId(dipendenteInSessione.getId());
+			}
+		}
 
 		List<RichiestaPermesso> richieste = richiestaPermessoService
 				.findByExample(example.buildRichiestaPermessoModel(true), pageNo, pageSize, sortBy).getContent();
@@ -109,40 +136,44 @@ public class RichiestaPermessoController {
 		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
 		return "redirect:/richiestapermesso";
 	}
-	
+
 	@GetMapping("/show/{idRichiesta}")
 	public String show(@PathVariable(required = true) Long idRichiesta, Model model) {
 		RichiestaPermesso richiestaModel = richiestaPermessoService.caricaRichiestaConDipendente(idRichiesta);
 		Attachment attachment = attachmentService.cercaPerIdRichiesta(idRichiesta);
-		
-		model.addAttribute("show_richiestapermesso_attr", RichiestaPermessoDTO.buildRichiestaPermessoDTOFromModel(richiestaModel));
-		model.addAttribute("show_richiestapermesso_dipendente_attr", DipendenteDTO.buildDipendenteDTOFromModel(richiestaModel.getDipendente()));
+
+		model.addAttribute("show_richiestapermesso_attr",
+				RichiestaPermessoDTO.buildRichiestaPermessoDTOFromModel(richiestaModel));
+		model.addAttribute("show_richiestapermesso_dipendente_attr",
+				DipendenteDTO.buildDipendenteDTOFromModel(richiestaModel.getDipendente()));
 		if (attachment == null) {
 			model.addAttribute("show_richiestapermesso_attachment_attr", null);
-		}
-		else {
+		} else {
 			model.addAttribute("show_richiestapermesso_attachment_attr",
 					AttachmentDTO.buildAttachmentDTOFromModel(attachment));
-			
+
 		}
-		
+
 		return "richiestapermesso/show";
 	}
-	
+
 	@GetMapping("/cambiaStato/{idRichiesta}")
 	public String cambiaStato(@PathVariable(required = true) Long idRichiesta, Model model) {
 		RichiestaPermesso richiestaModel = richiestaPermessoService.caricaRichiestaConDipendente(idRichiesta);
 		Attachment attachment = attachmentService.cercaPerIdRichiesta(idRichiesta);
-		
+
 		System.out.println(richiestaModel.isApprovato());
 		richiestaModel.setApprovato(!richiestaModel.isApprovato());
 		richiestaPermessoService.aggiorna(richiestaModel);
 		System.out.println(richiestaModel.isApprovato());
-		
-		model.addAttribute("show_richiestapermesso_attr", RichiestaPermessoDTO.buildRichiestaPermessoDTOFromModel(richiestaModel));
-		model.addAttribute("show_richiestapermesso_dipendente_attr", DipendenteDTO.buildDipendenteDTOFromModel(richiestaModel.getDipendente()));
-		model.addAttribute("show_richiestapermesso_attachment_attr", AttachmentDTO.buildAttachmentDTOFromModel(attachment));
-		
+
+		model.addAttribute("show_richiestapermesso_attr",
+				RichiestaPermessoDTO.buildRichiestaPermessoDTOFromModel(richiestaModel));
+		model.addAttribute("show_richiestapermesso_dipendente_attr",
+				DipendenteDTO.buildDipendenteDTOFromModel(richiestaModel.getDipendente()));
+		model.addAttribute("show_richiestapermesso_attachment_attr",
+				AttachmentDTO.buildAttachmentDTOFromModel(attachment));
+
 		System.out.println("return");
 		return "richiestapermesso/show";
 	}

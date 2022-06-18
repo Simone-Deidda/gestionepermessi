@@ -20,4 +20,6 @@ public interface RichiestaPermessoService {
 
 	public void aggiorna(RichiestaPermesso richiestaModel);
 
+	public List<RichiestaPermesso> cercaPerIdDipendente(Long id);
+
 }

@@ -2,6 +2,7 @@
 <%@taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!doctype html>
 <html lang="it" class="h-100" >
 <head>
@@ -88,22 +89,24 @@
 								  <label class="form-check-label" for="approvato">Approvato</label>
 								</div>
 								
-								<div class="col-md-6 form-check" id="dipDivId">
-									<p>Dipendente:</p>
-									<form:radiobuttons itemValue="id" itemLabel="nome"  element="div class='form-check'" items="${search_richiestapermesso_dipendente_attr}" path="dipendenteId" />
-								</div>
-								<script>
-									$(document).ready(function(){
-										
-										$("#dipDivId :input").each(function () {
-											$(this).addClass('form-check-input'); 
+								<sec:authorize access="!(hasRole('DIPENDENTE_USER'))">
+									<div class="col-md-6 form-check" id="dipDivId">
+										<p>Dipendente:</p>
+										<form:radiobuttons itemValue="id" itemLabel="nome"  element="div class='form-check'" items="${search_richiestapermesso_dipendente_attr}" path="dipendenteId" />
+									</div>
+									<script>
+										$(document).ready(function(){
+											
+											$("#dipDivId :input").each(function () {
+												$(this).addClass('form-check-input'); 
+											});
+											$("#dipDivId label").each(function () {
+												$(this).addClass('form-check-label'); 
+											});
+											
 										});
-										$("#dipDivId label").each(function () {
-											$(this).addClass('form-check-label'); 
-										});
-										
-									});
-								</script>
+									</script>
+								</sec:authorize>
 								
 								<div >
 									<label for="note" class="form-label">Note</label>

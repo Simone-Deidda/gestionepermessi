@@ -123,4 +123,9 @@ public class RichiestaPermessoServiceImpl implements RichiestaPermessoService {
 		richiestaPermessoRepository.save(richiestaModel);
 	}
 
+	@Override
+	public List<RichiestaPermesso> cercaPerIdDipendente(Long id) {
+		return richiestaPermessoRepository.findAllByDipendente_Id(id);
+	}
+
 }

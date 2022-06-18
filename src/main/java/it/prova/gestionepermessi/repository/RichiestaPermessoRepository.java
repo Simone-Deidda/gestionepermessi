@@ -1,5 +1,7 @@
 package it.prova.gestionepermessi.repository;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -14,5 +16,7 @@ public interface RichiestaPermessoRepository extends CrudRepository<RichiestaPer
 
 	@Query("select rp from RichiestaPermesso rp left join fetch rp.dipendente where rp.id = ?1")
 	RichiestaPermesso findByIdEager(Long id);
+
+	List<RichiestaPermesso> findAllByDipendente_Id(Long id);
 
 }
