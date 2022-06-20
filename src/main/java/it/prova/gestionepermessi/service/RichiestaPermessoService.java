@@ -18,7 +18,7 @@ public interface RichiestaPermessoService {
 
 	public RichiestaPermesso caricaRichiestaConDipendente(Long idUtente);
 
-	public void aggiorna(RichiestaPermesso richiestaModel);
+	public void aggiorna(RichiestaPermesso richiestaModel, MultipartFile multipartFile);
 
 	public List<RichiestaPermesso> cercaPerIdDipendente(Long id);
 

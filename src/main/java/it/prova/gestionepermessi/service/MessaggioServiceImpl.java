@@ -29,10 +29,10 @@ public class MessaggioServiceImpl implements MessaggioService {
 	@Override
 	@Transactional
 	public void inserisciNuovo(Messaggio messaggio, RichiestaPermesso richiesta) {
-		String note = richiesta.getNote().isBlank() ? "" : " , le note del dipendente " + richiesta.getNote();
+		String note = richiesta.getNote().isBlank() ? "" : " le note del dipendente " + richiesta.getNote();
 		String codice = richiesta.getCodiceCertificato().isBlank() ? ""
-				: " , il Codice del Certificato: " + richiesta.getCodiceCertificato();
-		String attachment = richiesta.getAttachment() == null ? "" : " , il file allegato";
+				: " il Codice del Certificato: " + richiesta.getCodiceCertificato();
+		String attachment = richiesta.getAttachment() == null ? "" : " il file allegato";
 		String ending = ".";
 
 		if (!note.isBlank() || !codice.isBlank() || !attachment.isBlank()) {
@@ -139,6 +139,38 @@ public class MessaggioServiceImpl implements MessaggioService {
 	@Transactional
 	public void cancella(Messaggio messaggio) {
 		messaggioRepository.delete(messaggio);
+	}
+
+	@Override
+	@Transactional
+	public void aggiorna(RichiestaPermesso richiesta, Messaggio messaggio) {
+		String note = richiesta.getNote().isBlank() ? "" : " le note del dipendente " + richiesta.getNote();
+		String codice = richiesta.getCodiceCertificato().isBlank() ? ""
+				: " il Codice del Certificato: " + richiesta.getCodiceCertificato();
+		String attachment = richiesta.getAttachment() == null ? "" : " il file allegato";
+		String ending = ".";
+
+		if (!note.isBlank() || !codice.isBlank() || !attachment.isBlank()) {
+			ending += " A seguire trovate:";
+			ending += note.isBlank() ? "" : " " + note;
+			ending += codice.isBlank() ? "" : " " + codice;
+			ending += attachment.isBlank() ? "" : " " + attachment;
+			ending += ".";
+		}
+
+		messaggio.setOggetto("Richiesta Permesso di " + richiesta.getDipendente().getNome() + " "
+				+ richiesta.getDipendente().getCognome());
+
+		messaggio.setTesto(
+				"Il dipendente " + richiesta.getDipendente().getNome() + " " + richiesta.getDipendente().getCognome()
+						+ " ha richiesto un permesso di tipo " + richiesta.getTipoPermesso() + " a partire del "
+						+ richiesta.getDataInizio() + " al " + richiesta.getDataFine() + ending);
+
+		messaggio.setDataInserimento(new Date());
+		messaggio.setLetto(false);
+		messaggio.setRichiestaPermesso(richiesta);
+
+		messaggioRepository.save(messaggio);
 	}
 
 }

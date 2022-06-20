@@ -27,7 +27,7 @@ public class RichiestaPermessoValidator implements Validator {
 				&& richiestaPermessoDTO.getDataInizio().after(richiestaPermessoDTO.getDataFine())) {
 			errors.rejectValue("dataInizio", "dataInizio.after.dataFine");
 		}
-		if (!richiestaPermessoDTO.getGiornoSingolo() && richiestaPermessoDTO.getDataFine() == null) {
+		if (richiestaPermessoDTO.getGiornoSingolo() != null && !richiestaPermessoDTO.getGiornoSingolo() && richiestaPermessoDTO.getDataFine() == null) {
 			errors.rejectValue("dataFine", "dataFine.notnull");
 		}
 		if (richiestaPermessoDTO.getTipoPermesso() == TipoPermesso.MALATTIA

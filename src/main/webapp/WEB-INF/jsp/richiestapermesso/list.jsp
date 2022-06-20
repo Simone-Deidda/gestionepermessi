@@ -60,6 +60,7 @@
 										<td>${richiestaItem.approvato?'APPROVATO':'NON APPROVATO' }</td>
 										<td>
 											<a class="btn btn-sm btn-outline-secondary" href="${pageContext.request.contextPath}/richiestapermesso/show/${richiestaItem.id}">Visualizza</a>
+											<a class="btn btn-sm btn-outline-primary" href="${pageContext.request.contextPath}/richiestapermesso/edit/${richiestaItem.id}">Modifica</a>
 											<a class="btn  btn-sm btn-outline-danger ml-2 mr-2" href="${pageContext.request.contextPath}/richiestapermesso/delete/${richiestaItem.id}">Cancella</a>
 										</td>
 									</tr>

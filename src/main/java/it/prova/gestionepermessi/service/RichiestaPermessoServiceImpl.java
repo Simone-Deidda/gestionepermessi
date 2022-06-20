@@ -120,8 +120,22 @@ public class RichiestaPermessoServiceImpl implements RichiestaPermessoService {
 
 	@Override
 	@Transactional
-	public void aggiorna(RichiestaPermesso richiestaModel) {
+	public void aggiorna(RichiestaPermesso richiestaModel, MultipartFile attchment) {
 		richiestaPermessoRepository.save(richiestaModel);
+		if (attchment != null) {
+			Attachment newfile = new Attachment();
+			newfile.setNomeFile(attchment.getOriginalFilename());
+			newfile.setContentType(attchment.getContentType());
+			try {
+				newfile.setPayload(attchment.getBytes());
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			newfile.setRichiestaPermesso(richiestaModel);
+			attachmentRepository.save(newfile);
+		}
+		
+		messaggioService.aggiorna(richiestaModel, messaggioService.findByRichiesta(richiestaModel.getId()));
 	}
 
 	@Override

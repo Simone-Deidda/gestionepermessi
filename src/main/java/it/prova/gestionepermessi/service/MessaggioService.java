@@ -25,4 +25,6 @@ public interface MessaggioService {
 
 	public void cancella(Messaggio messaggio);
 
+	public void aggiorna(RichiestaPermesso richiestaModel, Messaggio findByRichiesta);
+
 }

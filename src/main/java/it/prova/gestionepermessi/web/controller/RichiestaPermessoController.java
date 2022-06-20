@@ -164,7 +164,7 @@ public class RichiestaPermessoController {
 		Attachment attachment = attachmentService.cercaPerIdRichiesta(idRichiesta);
 
 		richiestaModel.setApprovato(!richiestaModel.isApprovato());
-		richiestaPermessoService.aggiorna(richiestaModel);
+		richiestaPermessoService.aggiorna(richiestaModel, null);
 
 		model.addAttribute("show_richiestapermesso_attr",
 				RichiestaPermessoDTO.buildRichiestaPermessoDTOFromModel(richiestaModel));
@@ -175,7 +175,7 @@ public class RichiestaPermessoController {
 
 		return "richiestapermesso/show";
 	}
-	
+
 	@GetMapping("/delete/{idRichiesta}")
 	public String delete(@PathVariable(required = true) Long idRichiesta, Model model) {
 		RichiestaPermesso richiestaModel = richiestaPermessoService.caricaSingolo(idRichiesta);
@@ -185,9 +185,10 @@ public class RichiestaPermessoController {
 
 		return "richiestapermesso/delete";
 	}
-	
+
 	@GetMapping("/remove/{idRichiesta}")
-	public String remove(@PathVariable(required = true) Long idRichiesta, Model model, RedirectAttributes redirectAttrs) {
+	public String remove(@PathVariable(required = true) Long idRichiesta, Model model,
+			RedirectAttributes redirectAttrs) {
 		RichiestaPermesso richiestaModel = richiestaPermessoService.caricaSingolo(idRichiesta);
 
 		if (richiestaModel.isApprovato()) {
@@ -195,7 +196,7 @@ public class RichiestaPermessoController {
 					RichiestaPermessoDTO.buildRichiestaPermessoDTOFromModel(richiestaModel));
 			return "richiestapermesso/delete";
 		}
-		
+
 		Attachment attachment = attachmentService.cercaPerIdRichiesta(idRichiesta);
 		if (attachment != null) {
 			attachmentService.cancella(attachment);
@@ -204,8 +205,49 @@ public class RichiestaPermessoController {
 		if (messaggio != null) {
 			messaggioService.cancella(messaggio);
 		}
-		
+
 		richiestaPermessoService.cancella(richiestaModel);
+		return "redirect:/richiestapermesso";
+	}
+
+	@GetMapping("/edit/{idRichiesta}")
+	public String editRichieste(@PathVariable(required = true) Long idRichiesta, ModelMap model) {
+		model.addAttribute("edit_richiestapermesso_attr", RichiestaPermessoDTO
+				.buildRichiestaPermessoDTOFromModel(richiestaPermessoService.caricaSingolo(idRichiesta)));
+		return "richiestapermesso/edit";
+	}
+	
+	@PostMapping("/update")
+	public String update(@Valid @ModelAttribute("edit_richiestapermesso_attr") RichiestaPermessoDTO richiestaDTO,
+			BindingResult result, RedirectAttributes redirectAttrs) {
+		richiestaPermessoValidator.validate(richiestaDTO, result);
+
+		if (result.hasErrors()) {
+			return "richiestapermesso/edit";
+		}
+		if (richiestaDTO.isApprovato()) {
+			result.rejectValue("tipoPermesso", "richiestaApprovata");
+			return "richiestapermesso/edit";
+		}
+		RichiestaPermesso richiesta = richiestaDTO.buildRichiestaPermessoFromModel();
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+		if (auth == null) {
+			throw new RuntimeException("Qualcosa è andato storto");
+		}
+		Dipendente dipendenteInsessione = dipendenteService.cercaPerUsername(auth.getName());
+		if (dipendenteInsessione == null) {
+			throw new RuntimeException("Qualcosa è andato storto");
+		}
+		if (richiestaDTO.getAttachment().getOriginalFilename().isBlank()) {
+			richiestaDTO.setAttachment(null);
+		}
+
+		richiesta.setDipendente(dipendenteInsessione);
+		richiestaPermessoService.aggiorna(richiesta,
+				richiestaDTO.getAttachment());
+
+		redirectAttrs.addFlashAttribute("successMessage", "Operazione eseguita correttamente");
 		return "redirect:/richiestapermesso";
 	}
 }
